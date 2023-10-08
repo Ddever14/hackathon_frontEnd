@@ -11,7 +11,9 @@
     keyWords: "",
     finalIdea: ""
   };
-  const handleSubmit = async () => {
+
+  
+const handleSubmit = async () => {
     try {
       const response = await fetch('http://localhost:3000/submit-form', {
         method: 'POST',
