@@ -1,147 +1,165 @@
+<script>
+  let formData = {
+    compname: "",
+    industry: "",
+    motoSlogan: "",
+    filename: "",
+    design: "",
+    color: "",
+    goalAd: "",
+    tone: "",
+    keyWords: "",
+    finalIdea: ""
+  };
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      console.log(result);  // log the result for now, handle it as you need
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+
+
+</script>
+
 <div class="topnav">
-  <a class="logo" href="/"><img src = "logo.png" alt = "" class = "image"/></a>
+  <a class="logo" href="/"><img src="logo.png" alt="" class="image" /></a>
   <a class="getStarted" href="/responsePage.svelte"><button>Start Generating</button></a>
 </div>
 
 <body>
 <div class="container">
-
-<div class="input">
-<h2 style="color:white">Advertisement Information</h2>
-
-
-<br/>
-<p style="color:white">The user will receive a prompt to input a comprehensive description for 
-  their intended advertisement, along with the option to upload accompanying images. Additionally, 
-  there is an optional provision to upload logos and/or prior advertisements for enhancement purposes.</p>
-<br/>
-<h1 style="color: #2f999d9e"><a href="#topOfDescription"><button class="descriptButton">Begin Description!</button></a></h1>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-</div>
-
-<!--hello-->
-
-
-
-<div class="header">
-<a id=topOfDescription> <h1>Business Description</h1></a>
-</div>
-<form action="action_page.php">
-  <div class="row">
-    <div class="col-25">
-      <label for="cname" style="color:white">Company Name</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="cname" name="compname" placeholder="Your company name..">
-    </div>
+  <div class="input">
+    <h2 style="color:white">Advertisement Information</h2>
+    <br/>
+    <p style="color:white">The user will receive a prompt to input a comprehensive description for 
+      their intended advertisement, along with the option to upload accompanying images. Additionally, 
+      there is an optional provision to upload logos and/or prior advertisements for enhancement purposes.</p>
+    <br/>
+    <h1 style="color: #2f999d9e"><a href="#topOfDescription"><button class="descriptButton">Begin Description!</button></a></h1>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
   </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="industry" style="color:white">Industry</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="industry" name="industry" placeholder="Your company's industry..">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="moto" style="color:white">Moto/Slogan</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="moto" name="motoSlogan" placeholder="Your compnay's moto..">
-    </div>
-  </div>
-</form>
 
+  <form on:submit|preventDefault={handleSubmit}>
+    <div class="header">
+      <a id=topOfDescription> <h1>Business Description</h1></a>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="cname" style="color:white">Company Name</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="cname" bind:value={formData.compname} placeholder="Your company name.." />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="industry" style="color:white">Industry</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="industry" bind:value={formData.industry} placeholder="Your company's industry.." />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="moto" style="color:white">Moto/Slogan</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="moto" bind:value={formData.motoSlogan} placeholder="Your company's moto.." />
+      </div>
+    </div>
 
-<div class="header">
-<h1>Visual Description</h1>
-</div>
-<div class="container2">
-<form action="action_page.php">
-  <div class="row">
-    <div class="col-25">
-      <label for="cname" style="color:white">Advertisement Image</label>
+    <div class="header">
+      <h1>Visual Description</h1>
     </div>
-    <div class="col-75">
-      <form action="/action_page.php">
-        <input type="file" id="myFile" name="filename">
-      </form>
+    <div class="container2">
+      <div class="row">
+        <div class="col-25">
+          <label for="cname" style="color:white">Advertisement Image</label>
+        </div>
+        <div class="col-75">
+          <input type="file" id="myFile" bind:value={formData.filename} />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="design" style="color:white">Description of Image</label>
+        </div>
+        <div class="col-75">
+          <textarea id="design" bind:value={formData.design} placeholder="Write a detailed description of the image submitted.." style="height:150px"></textarea>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="colors" style="color:white">Colors</label>
+        </div>
+        <div class="col-75">
+          <input type="text" id="colors" bind:value={formData.color} placeholder="Your company's color scheme.." />
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="design" style="color:white">Desciption of Image</label>
-    </div>
-    <div class="col-75">
-      <textarea id="design" name="design" placeholder="Write a detailed description of the image submitted.." style="height:150px"></textarea>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="colors" style="color:white">Colors</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="colors" name="color" placeholder="Your company's color scheme..">
-    </div>
-  </div>
-</form>
-</div>
 
-<div class="header">
-<h1>Objective Description</h1>
-</div>
-<div class="container">
-<form action="action_page.php">
-  <div class="row">
-    <div class="col-25">
-      <label for="goals" style="color:white">Goals</label>
+    <div class="header">
+      <h1>Objective Description</h1>
     </div>
-    <div class="col-75">
-      <input type="text" id="goals" name="goalAd" placeholder="Goals of the advertisement..">
+    <div class="container">
+      <div class="row">
+        <div class="col-25">
+          <label for="goals" style="color:white">Goals</label>
+        </div>
+        <div class="col-75">
+          <input type="text" id="goals" bind:value={formData.goalAd} placeholder="Goals of the advertisement.." />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="tone" style="color:white">Tone</label>
+        </div>
+        <div class="col-75">
+          <input type="text" id="tone" bind:value={formData.tone} placeholder="Desired tone of your advertisement.." />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="words" style="color:white">Key Words/Phrases</label>
+        </div>
+        <div class="col-75">
+          <input type="text" id="words" bind:value={formData.keyWords} placeholder="Key words you would like included.." />
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="tone" style="color:white">Tone</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="tone" name="tone" placeholder="Desired tone of your advertisement..">
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-25">
-      <label for="words" style="color:white">Key Words/Phrases</label>
-    </div>
-    <div class="col-75">
-      <input type="text" id="words" name="keyWords" placeholder="Key words you would like included..">
-    </div>
-  </div>
-</form>
-</div>
 
-<div class="header">
-<h1>Other Specifications/Ideas</h1>
-</div>
-<div class="container">
-<form action="action_page.php">
-  <div class="row">
-    <div class="col-25">
-      <label for="ideas" style="color:white">Final Ideas</label>
+    <div class="header">
+      <h1>Other Specifications/Ideas</h1>
     </div>
-    <div class="col-75">
-      <textarea id="ideas" name="finalIdea" placeholder="Put any final or additional specifications about the ad you would like generated.." style="height:150px"></textarea>
+    <div class="container">
+      <div class="row">
+        <div class="col-25">
+          <label for="ideas" style="color:white">Final Ideas</label>
+        </div>
+        <div class="col-75">
+          <textarea id="ideas" bind:value={formData.finalIdea} placeholder="Put any final or additional specifications about the ad you would like generated.." style="height:150px"></textarea>
+        </div>
+      </div>
+      <div>
+        <input style="font-size:larger" type="submit" value="Submit" />
+      </div>
     </div>
-  </div>
-  <div>
-    <a href="/finalTouchPage" ><input style="font-size:larger" type="submit" value="Submit"></a>
-  </div>
-</form>
-</div>
+  </form>
 </div>
 </body>
 
