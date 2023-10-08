@@ -12,27 +12,45 @@
     finalIdea: ""
   };
 
-  
-const handleSubmit = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/submit-form', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result = await response.json();
-      console.log(result);  // log the result for now, handle it as you need
-    } catch (error) {
-      console.error('Error:', error);
+  const handleSubmit = async () => {
+  try {
+    //Show loading overlay
+    //@ts-ignore
+    document.getElementById('loadingScreen').style.display = 'flex';
+    const data = new FormData();
+    for (const key in formData) {
+      // @ts-ignore
+      data.append(key, formData[key]);
+    }// @ts-ignore
+    if (file) {
+      data.append('advertisementImage', file);
     }
-  };
+
+    const response = await fetch('http://localhost:3000/submit-form', {
+      method: 'POST',
+      body: data,  // We're no longer specifying headers here as fetch will do it for us for FormData
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+    window.location.href = '/finalTouchPage';
+
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+// @ts-ignore
+  let file;
+  // @ts-ignore
+function handleFileChange(event) {
+  file = event.target.files[0];
+}
 
 
 
 </script>
+
 
 <div class="topnav">
   <a class="logo" href="/"><img src="logo.png" alt="" class="image" /></a>
@@ -94,7 +112,7 @@ const handleSubmit = async () => {
           <label for="cname" style="color:white">Advertisement Image</label>
         </div>
         <div class="col-75">
-          <input type="file" id="myFile" bind:value={formData.filename} />
+          <input type="file" id="myFile" on:change={handleFileChange} />
         </div>
       </div>
       <div class="row">
@@ -163,7 +181,14 @@ const handleSubmit = async () => {
     </div>
   </form>
 </div>
+
+<div id="loadingScreen" class="loading-overlay">
+    Loading...
+</div>
+
 </body>
+
+
 
 <style>
 
@@ -304,6 +329,30 @@ clear: both;
   border: none;
   border-radius: 10px;
 }
+
+
+
+.loading-overlay {
+  display: none; /* Initially hidden */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8); /* Black with opacity */
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  z-index: 9999; /* Ensure it's on top */
+  
+}
+
+
+
+
+
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
